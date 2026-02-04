@@ -81,6 +81,21 @@
     .error { display: none; }
     .error .icon { background: #f44336; }
     .error h1 { color: #f44336; }
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+    }
+    .footer a {
+      color: rgba(255,255,255,0.8);
+      margin: 0 8px;
+    }
+    .footer a:hover {
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -109,6 +124,12 @@
     <h1>인증 실패</h1>
     <p>링크가 만료되었거나 잘못되었습니다. 다시 시도해주세요.</p>
     <a href="https://www.revu.net" class="btn">돌아가기</a>
+  </div>
+
+  <div class="footer">
+    <a href="terms.html">이용약관</a>
+    <a href="privacy.html">개인정보처리방침</a>
+    <a href="refund.html">환불정책</a>
   </div>
 
   <script>
