@@ -255,9 +255,11 @@
   </div>
 
   <script>
-    // URL에서 user_id 파라미터 가져오기
+    // URL에서 파라미터 가져오기
     const params = new URLSearchParams(window.location.search);
     const userId = params.get('user_id');
+    const currentPlan = params.get('plan'); // 'free', 'monthly', 'yearly'
+    const expiresAt = params.get('expires'); // ISO date string
 
     // Lemon Squeezy 체크아웃 URL
     const CHECKOUT_URLS = {
@@ -265,13 +267,64 @@
       yearly: 'https://copy-money.lemonsqueezy.com/checkout/buy/27899a37-ea2a-4470-b5e2-6a0e3bdd27fb'
     };
 
+    // 구독 상태 확인
+    const isExpired = expiresAt ? new Date(expiresAt) < new Date() : true;
+    const activePlan = !isExpired ? currentPlan : 'free';
+
+    // 만료일 포맷
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const date = new Date(dateStr);
+      return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+    }
+
+    // 버튼 상태 업데이트
+    function updateButtons() {
+      const freeBtn = document.getElementById('freeBtn');
+      const monthlyBtn = document.getElementById('monthlyBtn');
+      const yearlyBtn = document.getElementById('yearlyBtn');
+
+      if (!userId) {
+        freeBtn.textContent = '로그인 필요';
+        return;
+      }
+
+      // 현재 플랜 표시
+      if (activePlan === 'free') {
+        freeBtn.textContent = '현재 플랜';
+        freeBtn.classList.remove('btn-secondary');
+        freeBtn.classList.add('btn-primary');
+      } else if (activePlan === 'monthly') {
+        monthlyBtn.textContent = '현재 플랜';
+        monthlyBtn.classList.remove('btn-primary');
+        monthlyBtn.classList.add('btn-secondary');
+        if (expiresAt) {
+          monthlyBtn.innerHTML = `현재 플랜<br><small style="font-weight:normal;font-size:12px">만료: ${formatDate(expiresAt)}</small>`;
+        }
+      } else if (activePlan === 'yearly') {
+        yearlyBtn.textContent = '현재 플랜';
+        yearlyBtn.classList.remove('btn-primary');
+        yearlyBtn.classList.add('btn-secondary');
+        if (expiresAt) {
+          yearlyBtn.innerHTML = `현재 플랜<br><small style="font-weight:normal;font-size:12px">만료: ${formatDate(expiresAt)}</small>`;
+        }
+      }
+    }
+
+    updateButtons();
+
     document.getElementById('monthlyBtn').addEventListener('click', (e) => {
       e.preventDefault();
       if (!userId) {
         alert('로그인 후 이용해주세요.\n크롬 확장 프로그램에서 로그인하세요.');
         return;
       }
-      const url = `${CHECKOUT_URLS.monthly}?checkout[custom][user_id]=${userId}`;
+      if (activePlan === 'monthly') {
+        alert('이미 월간 구독 중입니다.');
+        return;
+      }
+      const successUrl = encodeURIComponent(`https://seunggabi.github.io/revu-docs/success.html?user_id=${userId}`);
+      const url = `${CHECKOUT_URLS.monthly}?checkout[custom][user_id]=${userId}&checkout[redirect_url]=${successUrl}`;
       window.open(url, '_blank');
     });
 
@@ -281,14 +334,14 @@
         alert('로그인 후 이용해주세요.\n크롬 확장 프로그램에서 로그인하세요.');
         return;
       }
-      const url = `${CHECKOUT_URLS.yearly}?checkout[custom][user_id]=${userId}`;
+      if (activePlan === 'yearly') {
+        alert('이미 연간 구독 중입니다.');
+        return;
+      }
+      const successUrl = encodeURIComponent(`https://seunggabi.github.io/revu-docs/success.html?user_id=${userId}`);
+      const url = `${CHECKOUT_URLS.yearly}?checkout[custom][user_id]=${userId}&checkout[redirect_url]=${successUrl}`;
       window.open(url, '_blank');
     });
-
-    // 로그인 상태에 따라 버튼 텍스트 변경
-    if (!userId) {
-      document.getElementById('freeBtn').textContent = '로그인 필요';
-    }
   </script>
 </body>
 </html>
