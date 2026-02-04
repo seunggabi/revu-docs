@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REVU - 이메일 인증 완료</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .icon {
+      width: 80px;
+      height: 80px;
+      background: #4CAF50;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .icon svg {
+      width: 40px;
+      height: 40px;
+      fill: white;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+    p {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .info {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+    .steps {
+      text-align: left;
+      margin: 20px 0;
+    }
+    .steps li {
+      padding: 8px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: #FF6B35;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #e55a2b;
+    }
+    .error { display: none; }
+    .error .icon { background: #f44336; }
+    .error h1 { color: #f44336; }
+  </style>
+</head>
+<body>
+  <div class="container" id="success">
+    <div class="icon">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    </div>
+    <h1>이메일 인증 완료!</h1>
+    <p>REVU 계정이 성공적으로 활성화되었습니다.</p>
+
+    <div class="info">
+      <strong>다음 단계:</strong>
+      <ol class="steps">
+        <li>Chrome 확장 프로그램 아이콘 클릭</li>
+        <li>로그인하여 기능 사용</li>
+      </ol>
+    </div>
+
+    <a href="https://www.revu.net" class="btn">REVU 바로가기</a>
+  </div>
+
+  <div class="container error" id="error">
+    <div class="icon">
+      <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </div>
+    <h1>인증 실패</h1>
+    <p>링크가 만료되었거나 잘못되었습니다. 다시 시도해주세요.</p>
+    <a href="https://www.revu.net" class="btn">돌아가기</a>
+  </div>
+
+  <script>
+    // URL 파라미터 확인
+    const params = new URLSearchParams(window.location.hash.substring(1));
+    const error = params.get('error');
+    const errorDescription = params.get('error_description');
+
+    if (error) {
+      document.getElementById('success').style.display = 'none';
+      document.getElementById('error').style.display = 'block';
+      if (errorDescription) {
+        document.querySelector('#error p').textContent = decodeURIComponent(errorDescription);
+      }
+    }
+  </script>
+</body>
+</html>
