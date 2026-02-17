@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>REVU Apply - 요금제</title>
+  <title>REVU Apply - 후원 안내</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -13,7 +13,7 @@
       padding: 40px 20px;
     }
     .container {
-      max-width: 900px;
+      max-width: 700px;
       margin: 0 auto;
     }
     header {
@@ -49,7 +49,7 @@
       border: 3px solid #FF6B35;
     }
     .card.popular::before {
-      content: '인기';
+      content: '추천';
       position: absolute;
       top: -12px;
       left: 50%;
@@ -70,17 +70,12 @@
       font-size: 40px;
       font-weight: bold;
       color: #667eea;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
     }
     .card .price span {
       font-size: 16px;
       color: #888;
       font-weight: normal;
-    }
-    .card .discount {
-      color: #4CAF50;
-      font-size: 14px;
-      margin-bottom: 16px;
     }
     .card ul {
       list-style: none;
@@ -161,6 +156,16 @@
       color: #666;
       font-size: 14px;
     }
+    .note {
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      color: white;
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: center;
+    }
     footer {
       text-align: center;
       color: white;
@@ -176,7 +181,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>🚀 REVU Apply</h1>
+      <h1>REVU Apply</h1>
       <p>캠페인 신청을 더 빠르고 편리하게</p>
     </header>
 
@@ -184,42 +189,26 @@
       <!-- 무료 -->
       <div class="card">
         <h2>무료</h2>
-        <div class="price">₩0 <span>/ 월</span></div>
-        <div class="discount">&nbsp;</div>
+        <div class="price">$0 <span>/ 월</span></div>
         <ul>
           <li>하루 5회 신청</li>
           <li>메시지 저장</li>
           <li>단축키 지원</li>
         </ul>
-        <a href="#" class="btn btn-secondary" id="freeBtn">현재 플랜</a>
+        <a href="#" class="btn btn-secondary">현재 플랜</a>
       </div>
 
-      <!-- 월간 구독 -->
+      <!-- 후원 -->
       <div class="card popular">
-        <h2>월간 구독</h2>
-        <div class="price">₩4,900 <span>/ 월</span></div>
-        <div class="discount">&nbsp;</div>
+        <h2>프리미엄</h2>
+        <div class="price">$3 <span>/ 월</span></div>
         <ul>
           <li>무제한 신청</li>
           <li>메시지 저장</li>
           <li>단축키 지원</li>
           <li>우선 지원</li>
         </ul>
-        <a href="#" class="btn btn-primary" id="monthlyBtn" data-plan="monthly">구독하기</a>
-      </div>
-
-      <!-- 연간 구독 -->
-      <div class="card">
-        <h2>연간 구독</h2>
-        <div class="price">₩49,000 <span>/ 년</span></div>
-        <div class="discount">🎉 2개월 무료 (17% 할인)</div>
-        <ul>
-          <li>무제한 신청</li>
-          <li>메시지 저장</li>
-          <li>단축키 지원</li>
-          <li>우선 지원</li>
-        </ul>
-        <a href="#" class="btn btn-primary" id="yearlyBtn" data-plan="yearly">구독하기</a>
+        <a href="https://github.com/sponsors/seunggabi" class="btn btn-primary" target="_blank">GitHub Sponsors로 후원하기</a>
       </div>
     </div>
 
@@ -238,8 +227,8 @@
         </div>
         <div class="feature-item">
           <div class="icon">🔒</div>
-          <h4>안전한 로그인</h4>
-          <p>Supabase 인증 사용</p>
+          <h4>GitHub 로그인</h4>
+          <p>안전한 GitHub OAuth 인증</p>
         </div>
         <div class="feature-item">
           <div class="icon">🔄</div>
@@ -249,105 +238,18 @@
       </div>
     </div>
 
+    <div class="note">
+      GitHub Sponsors를 통한 후원자에게 감사의 의미로 프리미엄 기능을 제공합니다.<br>
+      후원은 언제든 취소 가능하며, 취소 시 해당 월 말까지 프리미엄 기능을 이용할 수 있습니다.
+    </div>
+
     <footer>
       <p style="margin-bottom: 8px;">
         <a href="terms.html">이용약관</a> |
-        <a href="privacy.html">개인정보처리방침</a> |
-        <a href="refund.html">환불정책</a>
+        <a href="privacy.html">개인정보처리방침</a>
       </p>
       <p>문의: dev.0.copy.money@gmail.com | <a href="https://www.revu.net">REVU 바로가기</a></p>
-      <p style="margin-top: 12px; font-size: 12px; opacity: 0.7;">결제 시 이용약관 및 개인정보처리방침에 동의하는 것으로 간주됩니다.</p>
     </footer>
   </div>
-
-  <script>
-    // URL에서 파라미터 가져오기
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get('user_id');
-    const currentPlan = params.get('plan'); // 'free', 'monthly', 'yearly'
-    const expiresAt = params.get('expires'); // ISO date string
-
-    // Lemon Squeezy 체크아웃 URL
-    const CHECKOUT_URLS = {
-      monthly: 'https://copy-money.lemonsqueezy.com/checkout/buy/da7733f3-9b6d-4b38-8536-ccb7920e42b8',
-      yearly: 'https://copy-money.lemonsqueezy.com/checkout/buy/27899a37-ea2a-4470-b5e2-6a0e3bdd27fb'
-    };
-
-    // 구독 상태 확인
-    const isExpired = expiresAt ? new Date(expiresAt) < new Date() : true;
-    const activePlan = !isExpired ? currentPlan : 'free';
-
-    // 만료일 포맷
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      const date = new Date(dateStr);
-      return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-    }
-
-    // 버튼 상태 업데이트
-    function updateButtons() {
-      const freeBtn = document.getElementById('freeBtn');
-      const monthlyBtn = document.getElementById('monthlyBtn');
-      const yearlyBtn = document.getElementById('yearlyBtn');
-
-      if (!userId) {
-        freeBtn.textContent = '로그인 필요';
-        return;
-      }
-
-      // 현재 플랜 표시
-      if (activePlan === 'free') {
-        freeBtn.textContent = '현재 플랜';
-        freeBtn.classList.remove('btn-secondary');
-        freeBtn.classList.add('btn-primary');
-      } else if (activePlan === 'monthly') {
-        monthlyBtn.textContent = '현재 플랜';
-        monthlyBtn.classList.remove('btn-primary');
-        monthlyBtn.classList.add('btn-secondary');
-        if (expiresAt) {
-          monthlyBtn.innerHTML = `현재 플랜<br><small style="font-weight:normal;font-size:12px">만료: ${formatDate(expiresAt)}</small>`;
-        }
-      } else if (activePlan === 'yearly') {
-        yearlyBtn.textContent = '현재 플랜';
-        yearlyBtn.classList.remove('btn-primary');
-        yearlyBtn.classList.add('btn-secondary');
-        if (expiresAt) {
-          yearlyBtn.innerHTML = `현재 플랜<br><small style="font-weight:normal;font-size:12px">만료: ${formatDate(expiresAt)}</small>`;
-        }
-      }
-    }
-
-    updateButtons();
-
-    document.getElementById('monthlyBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (!userId) {
-        alert('로그인 후 이용해주세요.\n크롬 확장 프로그램에서 로그인하세요.');
-        return;
-      }
-      if (activePlan === 'monthly') {
-        alert('이미 월간 구독 중입니다.');
-        return;
-      }
-      const successUrl = encodeURIComponent(`https://seunggabi.github.io/revu-docs/success.html?user_id=${userId}`);
-      const url = `${CHECKOUT_URLS.monthly}?checkout[custom][user_id]=${userId}&checkout[redirect_url]=${successUrl}`;
-      window.open(url, '_blank');
-    });
-
-    document.getElementById('yearlyBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (!userId) {
-        alert('로그인 후 이용해주세요.\n크롬 확장 프로그램에서 로그인하세요.');
-        return;
-      }
-      if (activePlan === 'yearly') {
-        alert('이미 연간 구독 중입니다.');
-        return;
-      }
-      const successUrl = encodeURIComponent(`https://seunggabi.github.io/revu-docs/success.html?user_id=${userId}`);
-      const url = `${CHECKOUT_URLS.yearly}?checkout[custom][user_id]=${userId}&checkout[redirect_url]=${successUrl}`;
-      window.open(url, '_blank');
-    });
-  </script>
 </body>
 </html>
